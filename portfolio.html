@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tom Paliotta — Mechanical Engineering</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #0a0a0a; --bg2: #111111; --bg3: #181818;
+  --border: rgba(255,255,255,0.08); --border-accent: rgba(255,255,255,0.18);
+  --text: #e8e6e0; --text-muted: #787570; --text-dim: #4a4845;
+  --accent: #c8a96e; --accent2: #8fb8a0;
+  --mono: 'IBM Plex Mono', monospace;
+  --display: 'Barlow Condensed', sans-serif;
+  --body: 'Barlow', sans-serif;
+}
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--body); font-weight: 300; font-size: 16px; line-height: 1.6; overflow-x: hidden; }
+
+/* SCROLL REVEAL */
+.reveal { opacity: 0; transform: translateY(36px); transition: opacity 0.75s cubic-bezier(0.22,1,0.36,1), transform 0.75s cubic-bezier(0.22,1,0.36,1); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+
+/* NAV */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 1.2rem 4rem; border-bottom: 1px solid var(--border); background: rgba(10,10,10,0.94); backdrop-filter: blur(10px); transition: padding 0.3s; }
+.nav-logo { font-family: var(--mono); font-size: 13px; letter-spacing: 0.12em; color: var(--accent); text-decoration: none; }
+.nav-links { display: flex; gap: 2.5rem; list-style: none; }
+.nav-links a { font-family: var(--mono); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+.nav-links a:hover { color: var(--text); }
+
+/* HERO */
+#hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 4rem 6rem; position: relative; border-bottom: 1px solid var(--border); }
+.hero-bg { position: absolute; inset: 0; overflow: hidden; z-index: 0; }
+.hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px); background-size: 60px 60px; }
+.hero-fade { position: absolute; inset: 0; background: radial-gradient(ellipse at 20% 60%, rgba(200,169,110,0.06) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, rgba(143,184,160,0.04) 0%, transparent 50%); }
+.hero-content { position: relative; z-index: 1; max-width: 960px; }
+.hero-tag { font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1rem; opacity: 0; animation: fadeUp 0.8s 0.2s cubic-bezier(0.22,1,0.36,1) forwards; }
+.hero-tag::before { content: ''; display: block; width: 40px; height: 1px; background: var(--accent); }
+h1 { font-family: var(--display); font-size: clamp(64px, 10vw, 128px); font-weight: 700; line-height: 0.9; letter-spacing: -0.01em; text-transform: uppercase; margin-bottom: 2rem; opacity: 0; animation: fadeUp 0.9s 0.35s cubic-bezier(0.22,1,0.36,1) forwards; }
+h1 span { color: var(--text-dim); font-weight: 300; }
+.hero-desc { font-size: 17px; font-weight: 300; color: var(--text-muted); max-width: 560px; line-height: 1.75; margin-bottom: 3rem; opacity: 0; animation: fadeUp 0.9s 0.5s cubic-bezier(0.22,1,0.36,1) forwards; }
+.hero-cta { display: flex; gap: 1.5rem; align-items: center; opacity: 0; animation: fadeUp 0.9s 0.65s cubic-bezier(0.22,1,0.36,1) forwards; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+
+.btn { display: inline-block; font-family: var(--mono); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; padding: 14px 32px; text-decoration: none; border: 1px solid; transition: all 0.2s; cursor: pointer; }
+.btn-primary { background: var(--accent); border-color: var(--accent); color: #0a0a0a; }
+.btn-primary:hover { background: transparent; color: var(--accent); }
+.btn-ghost { background: transparent; border-color: var(--border-accent); color: var(--text-muted); }
+.btn-ghost:hover { border-color: var(--text-muted); color: var(--text); }
+
+/* SECTIONS */
+section { padding: 7rem 4rem; border-bottom: 1px solid var(--border); }
+.section-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 4rem; display: flex; align-items: center; gap: 1rem; }
+.section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+h2 { font-family: var(--display); font-size: clamp(36px, 5vw, 58px); font-weight: 700; text-transform: uppercase; letter-spacing: 0.02em; line-height: 1; margin-bottom: 1.5rem; }
+
+/* ABOUT */
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start; margin-top: 3rem; }
+.about-text p { font-size: 16px; color: var(--text-muted); margin-bottom: 1.2rem; line-height: 1.85; }
+.about-text p strong { color: var(--text); font-weight: 500; }
+
+/* HEADSHOT */
+.headshot-wrap { aspect-ratio: 3/4; max-height: 460px; background: var(--bg3); border: 1px solid var(--border); overflow: hidden; display: flex; align-items: center; justify-content: center; margin-bottom: 1px; }
+.headshot-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.headshot-placeholder { display: flex; flex-direction: column; align-items: center; gap: 0.8rem; padding: 2rem; text-align: center; }
+.ph-icon { width: 64px; height: 64px; border-radius: 50%; border: 1px dashed var(--border-accent); display: flex; align-items: center; justify-content: center; font-size: 28px; }
+.headshot-placeholder p { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; color: var(--text-dim); line-height: 1.6; }
+
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); }
+.stat { background: var(--bg); padding: 1.8rem; }
+.stat-num { font-family: var(--display); font-size: 44px; font-weight: 700; line-height: 1; color: var(--accent); margin-bottom: 0.4rem; }
+.stat-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-dim); }
+
+/* PROJECTS */
+.projects-list { margin-top: 3rem; display: flex; flex-direction: column; gap: 1px; background: var(--border); }
+.project-card { background: var(--bg); display: grid; grid-template-columns: 1fr 1fr; transition: background 0.2s; overflow: hidden; }
+.project-card:hover { background: var(--bg3); }
+.project-card.reverse { direction: rtl; }
+.project-card.reverse > * { direction: ltr; }
+
+.project-img { aspect-ratio: 4/3; background: var(--bg3); border-right: 1px solid var(--border); overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative; }
+.project-card.reverse .project-img { border-right: none; border-left: 1px solid var(--border); }
+.project-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s cubic-bezier(0.22,1,0.36,1); }
+.project-card:hover .project-img img { transform: scale(1.04); }
+.img-placeholder { display: flex; flex-direction: column; align-items: center; gap: 0.8rem; padding: 2rem; text-align: center; width: 100%; }
+.ph-frame { width: 80px; height: 60px; border: 1px dashed rgba(255,255,255,0.12); display: flex; align-items: center; justify-content: center; font-size: 22px; opacity: 0.4; }
+.ph-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-dim); line-height: 1.6; }
+.ph-hint { font-family: var(--mono); font-size: 8px; letter-spacing: 0.1em; color: var(--text-dim); opacity: 0.4; }
+
+.project-body { padding: 3rem; display: flex; flex-direction: column; }
+.project-num { font-family: var(--mono); font-size: 9px; letter-spacing: 0.22em; color: var(--text-dim); margin-bottom: 1.5rem; }
+.project-title { font-family: var(--display); font-size: 28px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 1rem; line-height: 1.1; }
+.project-desc { font-size: 14px; color: var(--text-muted); line-height: 1.85; flex: 1; margin-bottom: 2rem; }
+.project-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1.5rem; }
+.tag { font-family: var(--mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; padding: 4px 10px; border: 1px solid var(--border); color: var(--text-dim); }
+.tag.accent { border-color: var(--accent); color: var(--accent); }
+.project-status { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; display: flex; align-items: center; gap: 8px; color: var(--text-dim); }
+.status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--text-dim); }
+.status-dot.active { background: var(--accent2); }
+.status-dot.concept { background: var(--accent); }
+
+/* SKILLS */
+.skills-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-top: 3rem; }
+.skill-category { margin-bottom: 2.5rem; }
+.skill-cat-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.2rem; padding-bottom: 0.8rem; border-bottom: 1px solid var(--border); }
+.skill-list { list-style: none; }
+.skill-list li { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+.skill-list li:last-child { border-bottom: none; }
+.skill-name { color: var(--text); }
+.skill-bar { display: flex; gap: 3px; }
+.skill-bar-seg { width: 20px; height: 3px; background: var(--border); }
+.skill-bar-seg.filled { background: var(--accent); }
+
+/* EXPERIENCE */
+.exp-list { margin-top: 3rem; }
+.exp-item { display: grid; grid-template-columns: 200px 1fr; gap: 3rem; padding: 2.5rem 0; border-bottom: 1px solid var(--border); }
+.exp-item:first-child { border-top: 1px solid var(--border); }
+.exp-date { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; color: var(--text-dim); margin-bottom: 0.5rem; }
+.exp-company { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; color: var(--accent); }
+.exp-role { font-family: var(--display); font-size: 24px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 0.8rem; }
+.exp-desc { font-size: 14px; color: var(--text-muted); line-height: 1.85; }
+
+/* CONTACT */
+#contact { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; }
+.contact-left h2 { margin-bottom: 1rem; }
+.contact-left p { font-size: 16px; color: var(--text-muted); line-height: 1.75; margin-bottom: 2.5rem; }
+.contact-links { list-style: none; }
+.contact-links li { padding: 1rem 0; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+.contact-links a { text-decoration: none; color: var(--text-muted); font-size: 14px; transition: color 0.2s; display: flex; flex-direction: column; gap: 2px; }
+.contact-links a:hover { color: var(--text); }
+.link-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); }
+.link-arrow { font-family: var(--mono); font-size: 14px; color: var(--text-dim); }
+
+/* FOOTER */
+footer { padding: 2rem 4rem; display: flex; justify-content: space-between; align-items: center; }
+footer p { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; color: var(--text-dim); }
+
+/* RESPONSIVE */
+@media (max-width: 960px) {
+  nav { padding: 1.2rem 2rem; }
+  .nav-links { gap: 1.5rem; }
+  section { padding: 5rem 2rem; }
+  #hero { padding: 0 2rem 5rem; }
+  .about-grid, .skills-layout, #contact { grid-template-columns: 1fr; gap: 3rem; }
+  .project-card, .project-card.reverse { grid-template-columns: 1fr; direction: ltr; }
+  .project-card.reverse .project-img { border-left: none; border-bottom: 1px solid var(--border); }
+  .project-img { border-right: none; border-bottom: 1px solid var(--border); aspect-ratio: 16/9; }
+  .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
+  footer { padding: 2rem; flex-direction: column; gap: 1rem; text-align: center; }
+}
+@media (max-width: 600px) {
+  h1 { font-size: 52px; }
+  .nav-links { display: none; }
+  .project-body { padding: 2rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="#">TOM_PALIOTTA</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"><div class="hero-grid"></div><div class="hero-fade"></div></div>
+  <div class="hero-content">
+    <div class="hero-tag">Mechanical Engineering · Defense Technology · UT Austin</div>
+    <h1>Tom<br><span>Paliotta</span></h1>
+    <p class="hero-desc">
+      Sophomore ME at UT Austin building advanced mechanical systems
+      at the intersection of fabrication, aerodynamics, and defense technology.
+      Focused on what actually works in the field.
+    </p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-primary">View Projects</a>
+      <!--
+        RESUME: Upload your PDF to the GitHub repo root as "resume.pdf"
+        This button will then download it automatically.
+      -->
+      <a href="./resume.pdf" class="btn btn-ghost" download="Tom_Paliotta_Resume.pdf">Download Resume</a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label reveal">01 — About</div>
+  <div class="about-grid">
+    <div class="about-text">
+      <h2 class="reveal">Building systems that perform under pressure.</h2>
+      <p class="reveal reveal-delay-1">
+        I'm a sophomore mechanical engineering student at <strong>UT Austin</strong>,
+        pursuing work at the intersection of advanced fabrication, aerodynamics, and
+        defense technology. My long-term goal is to found a defense contracting company.
+      </p>
+      <p class="reveal reveal-delay-2">
+        I have hands-on experience with <strong>SolidWorks CAD and FEA</strong>,
+        bound metal additive manufacturing, and 3D printing across a range of materials.
+        My background includes a defense industry internship and independent project
+        development built entirely on a tight budget.
+      </p>
+      <p class="reveal reveal-delay-3">
+        When I'm not running CFD simulations or in the lab, I'm flipping
+        powersports equipment to fund the next build.
+      </p>
+    </div>
+    <div class="reveal reveal-delay-2">
+      <!--
+        HEADSHOT: Replace everything inside .headshot-wrap with:
+        <img src="./headshot.jpg" alt="Tom Paliotta">
+        after uploading your photo to the repo.
+      -->
+      <div class="headshot-wrap">
+        <div class="headshot-placeholder">
+          <div class="ph-icon">👤</div>
+          <p>Upload headshot.jpg to repo<br>then replace this with:<br>&lt;img src="./headshot.jpg"&gt;</p>
+        </div>
+      </div>
+      <div class="stats-grid">
+        <div class="stat"><div class="stat-num">4+</div><div class="stat-label">Defense projects active</div></div>
+        <div class="stat"><div class="stat-num">2</div><div class="stat-label">Years hands-on fabrication</div></div>
+        <div class="stat"><div class="stat-num">BMF</div><div class="stat-label">Bound metal filament print</div></div>
+        <div class="stat"><div class="stat-num">CFD</div><div class="stat-label">Flow sim & wind tunnel</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label reveal">02 — Projects</div>
+  <h2 class="reveal">Field-tested systems.<br><span style="color:var(--text-dim);font-weight:300;">Apartment-built.</span></h2>
+
+  <div class="projects-list">
+
+    <!-- 001: Microfactory -->
+    <div class="project-card reveal">
+      <div class="project-img">
+        <!--
+          ADD IMAGE: <img src="./img/microfactory.jpg" alt="Portable Field Metal Microfactory">
+          (create an /img/ folder in your repo and upload renders there)
+        -->
+        <div class="img-placeholder">
+          <div class="ph-frame">⚙</div>
+          <div class="ph-label">SolidWorks render or photo</div>
+          <div class="ph-hint">swap with &lt;img src="./img/microfactory.jpg"&gt;</div>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-num">PROJECT / 001</div>
+        <div class="project-title">Portable Field Metal Microfactory</div>
+        <p class="project-desc">
+          A fully SolidWorks-modeled portable manufacturing system using bound metal filament
+          printing for field-deployable metal part production. Designed for forward operating
+          scenarios where conventional manufacturing infrastructure is unavailable. Complete
+          assembly model with tolerance analysis and full BOM. Blender render in progress
+          via STEP AP214 export.
+        </p>
+        <div class="project-tags">
+          <span class="tag accent">SolidWorks</span>
+          <span class="tag accent">BMF Printing</span>
+          <span class="tag">Additive Mfg.</span>
+          <span class="tag">Defense</span>
+          <span class="tag">Field Systems</span>
+          <span class="tag">Blender</span>
+        </div>
+        <div class="project-status"><div class="status-dot active"></div>Fully modeled — render in progress</div>
+      </div>
+    </div>
+
+    <!-- 002: Flying Wing (reversed) -->
+    <div class="project-card reverse reveal">
+      <div class="project-img">
+        <!-- ADD IMAGE: <img src="./img/flyingwing.jpg" alt="Flying Wing Drone"> -->
+        <div class="img-placeholder">
+          <div class="ph-frame">◈</div>
+          <div class="ph-label">CFD screenshot or airframe render</div>
+          <div class="ph-hint">swap with &lt;img src="./img/flyingwing.jpg"&gt;</div>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-num">PROJECT / 002</div>
+        <div class="project-title">Flying Wing Drone — ISR / Strike Config</div>
+        <p class="project-desc">
+          Active SolidWorks airframe model with Flow Simulation CFD analysis underway.
+          Exploring aerodynamic efficiency tradeoffs for an ISR and strike-capable UAV
+          platform. Targeting low-observable planform geometry with optimized
+          lift-to-drag characteristics across the operational speed envelope.
+        </p>
+        <div class="project-tags">
+          <span class="tag accent">CFD / Flow Sim</span>
+          <span class="tag accent">SolidWorks</span>
+          <span class="tag">UAV</span>
+          <span class="tag">Aerodynamics</span>
+          <span class="tag">ISR</span>
+        </div>
+        <div class="project-status"><div class="status-dot active"></div>Active — CFD in progress</div>
+      </div>
+    </div>
+
+    <!-- 003: Tube-launched -->
+    <div class="project-card reveal">
+      <div class="project-img">
+        <!-- ADD IMAGE: <img src="./img/munition.jpg" alt="Tube-Launched Loitering Munition"> -->
+        <div class="img-placeholder">
+          <div class="ph-frame">▲</div>
+          <div class="ph-label">Concept sketch or CAD render</div>
+          <div class="ph-hint">swap with &lt;img src="./img/munition.jpg"&gt;</div>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-num">PROJECT / 003</div>
+        <div class="project-title">Tube-Launched Loitering Munition</div>
+        <p class="project-desc">
+          Concept design for a man-portable, tube-launched loitering munition. Research phase
+          covering deployment mechanics, folding wing geometry, and terminal guidance integration
+          pathways. Budget-constrained hardware study examining COTS component viability for
+          a low-cost expendable airframe.
+        </p>
+        <div class="project-tags">
+          <span class="tag accent">Concept Design</span>
+          <span class="tag">Munitions</span>
+          <span class="tag">Folding Wing</span>
+          <span class="tag">Defense</span>
+        </div>
+        <div class="project-status"><div class="status-dot concept"></div>Concept — Research phase</div>
+      </div>
+    </div>
+
+    <!-- 004: Counter-UAS (reversed) -->
+    <div class="project-card reverse reveal">
+      <div class="project-img">
+        <!-- ADD IMAGE: <img src="./img/counter-uas.jpg" alt="Counter-UAS System Study"> -->
+        <div class="img-placeholder">
+          <div class="ph-frame">◎</div>
+          <div class="ph-label">System diagram or concept art</div>
+          <div class="ph-hint">swap with &lt;img src="./img/counter-uas.jpg"&gt;</div>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-num">PROJECT / 004</div>
+        <div class="project-title">Counter-UAS System Study</div>
+        <p class="project-desc">
+          System-level analysis of defeat mechanisms for small UAS threats. Focused on
+          kinetic and electronic defeat options for low-cost deployable platforms.
+          Preliminary sensor geometry and intercept envelope modeling against
+          representative Group 1–2 UAS targets.
+        </p>
+        <div class="project-tags">
+          <span class="tag accent">Systems Analysis</span>
+          <span class="tag">Counter-UAS</span>
+          <span class="tag">Intercept Geometry</span>
+          <span class="tag">Defense</span>
+        </div>
+        <div class="project-status"><div class="status-dot concept"></div>Concept — Early research</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label reveal">03 — Skills & Tools</div>
+  <h2 class="reveal">Technical capabilities.</h2>
+  <div class="skills-layout">
+    <div>
+      <div class="skill-category reveal">
+        <div class="skill-cat-label">Design & Simulation</div>
+        <ul class="skill-list">
+          <li><span class="skill-name">SolidWorks (CAD / FEA)</span><div class="skill-bar"><div class="skill-bar-seg filled"></div><div class="skill-bar-seg filled"></div><div class="skill-bar-seg filled"></div><div class="skill-bar-seg filled"></div><div class="skill-bar-seg"></div></div></li>
+          <li><span class="skill-name">SW Flow Simulation (CFD)</span><div class="skill-bar"><div class="skill-bar-seg filled"></div><div class="skill-bar-seg filled"></div><div class="skill-bar-seg filled"></div><div class="skill-bar-seg"></div><div class="skill-bar-seg"></div></div></li>
+          <li><span class="skill-name">Blender (Cycles Rendering)</span><div class="skill-bar"><div class="skill-bar-seg filled"></div><div class="skill-bar-seg filled"></div><div class="skill-bar-seg"></div><div class="skill-bar-seg"></div><div class="skill-bar-seg"></div></div></li>
+          <li><span class="skill-name">GD&T / Tolerance Analysis</span><div class="skill-bar"><div class="skill-bar-seg filled"></div><div class="skill-bar-seg filled"></div><div class="skill-bar-seg filled"></div><div class="skill-bar-seg"></div><div class="skill-bar-seg"></div></div></li>
+        </ul>
+      </div>
+      <div class="skill-category reveal reveal-delay-1">
+        <div class="skill-cat-label">Fabrication</div>
+        <ul class="skill-list">
+          <li><span class="skill-name">FDM / BMF 3D Printing</span><div class="skill-bar"><div class="skill-bar-seg filled"></div><div class="skill-bar-seg filled"></div><div class="skill-bar-seg filled"></div><div class="skill-bar-seg filled"></div><div class="skill-bar-seg"></div></div></li>
+          <li><span class="skill-name">Manual Machining</span><div class="skill-bar"><div class="skill-bar-seg filled"></div><div class="skill-bar-seg filled"></div><div class="skill-bar-seg filled"></div><div class="skill-bar-seg"></div><div class="skill-bar-seg"></div></div></li>
+          <li><span class="skill-name">Small Engine / Powertrain</span><div class="skill-bar"><div class="skill-bar-seg filled"></div><div class="skill-bar-seg filled"></div><div class="skill-bar-seg filled"></div><div class="skill-bar-seg filled"></div><div class="skill-bar-seg"></div></div></li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="skill-category reveal reveal-delay-1">
+        <div class="skill-cat-label">Engineering Fundamentals</div>
+        <ul class="skill-list">
+          <li><span class="skill-name">Fluid Mechanics / Aerodynamics</span><div class="skill-bar"><div class="skill-bar-seg filled"></div><div class="skill-bar-seg filled"></div><div class="skill-bar-seg filled"></div><div class="skill-bar-seg filled"></div><div class="skill-bar-seg"></div></div></li>
+          <li><span class="skill-name">Structural Mechanics / FEA</span><div class="skill-bar"><div class="skill-bar-seg filled"></div><div class="skill-bar-seg filled"></div><div class="skill-bar-seg filled"></div><div class="skill-bar-seg"></div><div class="skill-bar-seg"></div></div></li>
+          <li><span class="skill-name">Dimensional Analysis</span><div class="skill-bar"><div class="skill-bar-seg filled"></div><div class="skill-bar-seg filled"></div><div class="skill-bar-seg filled"></div><div class="skill-bar-seg"></div><div class="skill-bar-seg"></div></div></li>
+          <li><span class="skill-name">Thermodynamics</span><div class="skill-bar"><div class="skill-bar-seg filled"></div><div class="skill-bar-seg filled"></div><div class="skill-bar-seg filled"></div><div class="skill-bar-seg"></div><div class="skill-bar-seg"></div></div></li>
+        </ul>
+      </div>
+      <div class="skill-category reveal reveal-delay-2">
+        <div class="skill-cat-label">Other</div>
+        <ul class="skill-list">
+          <li><span class="skill-name">Technical Documentation</span><div class="skill-bar"><div class="skill-bar-seg filled"></div><div class="skill-bar-seg filled"></div><div class="skill-bar-seg filled"></div><div class="skill-bar-seg"></div><div class="skill-bar-seg"></div></div></li>
+          <li><span class="skill-name">Python (scripting)</span><div class="skill-bar"><div class="skill-bar-seg filled"></div><div class="skill-bar-seg filled"></div><div class="skill-bar-seg"></div><div class="skill-bar-seg"></div><div class="skill-bar-seg"></div></div></li>
+          <li><span class="skill-name">Defense Acquisition Exposure</span><div class="skill-bar"><div class="skill-bar-seg filled"></div><div class="skill-bar-seg filled"></div><div class="skill-bar-seg"></div><div class="skill-bar-seg"></div><div class="skill-bar-seg"></div></div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-label reveal">04 — Experience & Education</div>
+  <h2 class="reveal">Background.</h2>
+  <div class="exp-list">
+
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <div class="exp-date">2024 – Present</div>
+        <div class="exp-company">UT Austin</div>
+      </div>
+      <div>
+        <div class="exp-role">B.S. Mechanical Engineering</div>
+        <p class="exp-desc">Sophomore year. Coursework spanning fluid mechanics, structural mechanics, thermodynamics, and materials science. Active wind tunnel lab work including cylinder drag characterization via pressure integration and control volume methods, and vehicle aerodynamics testing. Pursuing defense-relevant technical electives and independent project work in parallel.</p>
+      </div>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <div class="exp-date">2023</div>
+        <div class="exp-company">Defense Industry</div>
+      </div>
+      <div>
+        <div class="exp-role">Engineering Intern</div>
+        <p class="exp-desc">Defense industry internship with exposure to professional engineering workflows, hardware development in a regulated environment, and defense acquisition processes. Applied CAD and fabrication skills in a professional defense context.</p>
+      </div>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <div class="exp-date">Ongoing</div>
+        <div class="exp-company">Independent</div>
+      </div>
+      <div>
+        <div class="exp-role">Self-Directed Project Development</div>
+        <p class="exp-desc">Building a portfolio of defense-relevant engineering projects independently, funded in part through powersports equipment arbitrage. Emphasis on low-budget, high-fidelity system modeling and fabrication — proving that serious work doesn't require institutional resources.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-left reveal">
+    <div class="section-label">05 — Contact</div>
+    <h2>Let's build something serious.</h2>
+    <p>Open to defense internships, research collaborations, and conversations with people building things that matter. Based in Austin, TX.</p>
+    <a href="mailto:tompaliotta@utexas.edu" class="btn btn-primary">Send a Message</a>
+  </div>
+  <div class="reveal reveal-delay-1">
+    <ul class="contact-links">
+      <li>
+        <a href="mailto:tompaliotta@utexas.edu">
+          <span class="link-label">Email</span>
+          tompaliotta@utexas.edu
+        </a>
+        <span class="link-arrow">→</span>
+      </li>
+      <li>
+        <a href="https://www.linkedin.com/in/tom-paliotta-b56043261" target="_blank" rel="noopener">
+          <span class="link-label">LinkedIn</span>
+          linkedin.com/in/tom-paliotta-b56043261
+        </a>
+        <span class="link-arrow">→</span>
+      </li>
+      <li>
+        <!--
+          RESUME: Upload your PDF as "resume.pdf" to the root of your GitHub repo.
+          This link will then work automatically on the live site.
+        -->
+        <a href="./resume.pdf" download="Tom_Paliotta_Resume.pdf">
+          <span class="link-label">Resume</span>
+          Download PDF
+        </a>
+        <span class="link-arrow">↓</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 — Tom Paliotta — Austin, TX</p>
+  <p>Mechanical Engineering · Defense Technology · UT Austin</p>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+const nav = document.querySelector('nav');
+window.addEventListener('scroll', () => {
+  nav.style.padding = window.scrollY > 80 ? '0.85rem 4rem' : '1.2rem 4rem';
+}, { passive: true });
+</script>
+</body>
+</html>
